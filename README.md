@@ -1,0 +1,7 @@
+# assignment3
+This repository contains a Vega-Lite visualization of a building inventory dataset. The visualization presents data on buildings acquired from the year 1930 onwards, showing the year of acquisition against  square footage with a scatter plot. It also provides an aggregated view of the number of buildings acquired over certain periods with a bar chart.
+Scatter Plot: Represents individual buildings, with the X-axis indicating the year the building was acquired and the Y-axis representing the square footage of the building. You can select a range on the Y-axis using the 'click and drag' feature to highlight specific data points.
+Bar Chart : Aggregates and displays the number of buildings acquired over periods defined by a 5-year bin. 
+
+The visualization incorporates a 'click and drag' selection mechanism on the scatter plot. By selecting a range on the Y-axis (square footage), you can highlight specific data points on the scatter plot and also see the corresponding bars on the bar chart.
+The dataset was quite large, and I noticed that most of the points relevant were past 1930, and square footage max up to 200000. This makes the extremely large data set more easy to see. The scatter plot displays individual buildings by when they were acquired and their size, while the bar graph groups these buildings into 5-year intervals, making it easy to see both specific details and general trends.
