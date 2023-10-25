@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Visualization Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.25.0/build/vega.min.js"
+        integrity="sha256-na2uPt+tUPV7GRVpc+/ezQj+lGwljIvOJifkmg8f3as=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.15.0/build/vega-lite.min.js"
+        integrity="sha256-WLAn82Ut4GptY/IJf4K/1i+R8ibAkVLFhBVkOovqCK8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.2/build/vega-embed.min.js"
+        integrity="sha256-GfFZ6w7V/y3Ws9eHVsOXZ/F1ZFroThVZraOAx3HAt6s=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="viz"></div>
+
+    <script>
+        var vlSpec = {
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "data": {"url": "https://raw.githubusercontent.com/candroid24/assignment3/main/building_inventory.csv"},
+  "transform": [{"filter": "datum['Year Acquired'] >= 1930"}],
+  "hconcat": [
+    {
+      "mark": {"type": "circle", "clip": true},
+      "selection": {"clickanddrag": {"type": "interval", "encodings": ["y"]}},
+      "encoding": {
+        "x": {"field": "Year Acquired", "type": "quantitative",  "scale": {"domain": [1930, 2019]}, "axis": {"title": "Year Building Acquired"}},
+        "y": {"field": "Square Footage", "type": "quantitative", "scale": {"domain": [0, 200000]},"axis": {"title": "Building Square Footage"}},
+        "tooltip": [
+          {"field": "Agency Name", "type": "ordinal"},
+          {"field": "Location Name", "type": "ordinal"}
+        ],
+        "opacity": {
+          "condition": {
+            "selection":"clickanddrag"
+          },
+          "value": 0.2
+        }
+      }
+    },
+    {
+      "layer": [
+        {
+          "mark": "bar",
+          "encoding": {
+            "x": {"field": "Year Acquired", "type": "ordinal", "bin": {"step": 5},"axis": {"title": "Year Building Acquired"}},
+            "y": {"aggregate": "count", "type": "quantitative", "title": "Number of Buildings"},
+            "opacity": {"value": 0.2}
+          }
+        },
+        {
+          "mark": "bar",
+          "transform": [{"filter": {"selection": "clickanddrag"}}],
+          "encoding": {
+            "x": {"field": "Year Acquired", "type": "ordinal","bin": {"step": 5}, "axis": {"title": "Year Building Acquired"}},
+            "y": {"aggregate": "count", "type": "quantitative", "title": "Number of Buildings"}
+          }
+        }
+      ]
+    }
+  ]
+};
+        vegaEmbed('#viz', vlSpec);
+    </script>
+</body>
+
+</html>

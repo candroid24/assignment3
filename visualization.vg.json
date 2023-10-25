@@ -1,0 +1,71 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/candroid24/assignment3/main/building_inventory.csv"
+  },
+  "transform": [{"filter": "datum['Year Acquired'] >= 1930"}],
+  "hconcat": [
+    {
+      "mark": {"type": "circle", "clip": true},
+      "selection": {"clickanddrag": {"type": "interval", "encodings": ["y"]}},
+      "encoding": {
+        "x": {
+          "field": "Year Acquired",
+          "type": "quantitative",
+          "scale": {"domain": [1930, 2019]},
+          "axis": {"title": "Year Building Acquired"}
+        },
+        "y": {
+          "field": "Square Footage",
+          "type": "quantitative",
+          "scale": {"domain": [0, 200000]},
+          "axis": {"title": "Building Square Footage"}
+        },
+        "tooltip": [
+          {"field": "Agency Name", "type": "ordinal"},
+          {"field": "Location Name", "type": "ordinal"}
+        ],
+        "opacity": {"condition": {"selection": "clickanddrag"}, "value": 0.2}
+      }
+    },
+    {
+      "layer": [
+        {
+          "mark": "bar",
+          "encoding": {
+            "x": {
+              "field": "Year Acquired",
+              "type": "ordinal",
+              "bin": {"step": 5},
+              "axis": {"title": "Year Building Acquired"}
+            },
+            "y": {
+              "aggregate": "count",
+              "type": "quantitative",
+              "title": "Number of Buildings"
+            },
+            "opacity": {"value": 0.2}
+          }
+        },
+        {
+          "mark": "bar",
+          "transform": [{"filter": {"selection": "clickanddrag"}}],
+          "encoding": {
+            "x": {
+              "field": "Year Acquired",
+              "type": "ordinal",
+              "bin": {"step": 5},
+              "axis": {"title": "Year Building Acquired"}
+            },
+            "y": {
+              "aggregate": "count",
+              "type": "quantitative",
+              "title": "Number of Buildings"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "config": {}
+}
